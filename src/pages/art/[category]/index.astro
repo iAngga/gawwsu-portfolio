@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Tile from '../../../components/Tile.astro';
+import { getArtCategories, artUrl, formatDate } from '../../../lib/content';
+
+export async function getStaticPaths() {
+  const categories = await getArtCategories();
+  return categories.map((category) => ({
+    params: { category: category.slug },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+---
+
+<BaseLayout title={category.title} description={category.description || `${category.title} by gawwsu`}>
+  <a class="back" href="/art/">← all art</a>
+  <h1>{category.title}</h1>
+  {category.description && <p class="lede">{category.description}</p>}
+
+  <ul class="grid">
+    {
+      category.entries.map((a, i) => (
+        <Tile
+          href={artUrl(a)}
+          image={a.data.cover}
+          alt={a.data.coverAlt}
+          label={a.data.title}
+          sub={formatDate(a.data.date)}
+          pixelated={a.data.pixelated}
+          eager={i < 3}
+        />
+      ))
+    }
+  </ul>
+</BaseLayout>

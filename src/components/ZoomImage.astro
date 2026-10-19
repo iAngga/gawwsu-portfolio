@@ -1,0 +1,36 @@
+---
+/**
+ * Gambar yang bisa diklik untuk dibuka di Lightbox.
+ * Thumbnail dan versi besar dibuat otomatis saat build.
+ */
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  image: ImageMetadata;
+  alt?: string;
+  pixelated?: boolean;
+  /** lebar tampilan di halaman */
+  width?: number;
+  eager?: boolean;
+}
+
+const { image, alt = '', pixelated = false, width = 1000, eager = false } = Astro.props;
+
+const full = pixelated
+  ? await getImage({ src: image, format: 'png' })
+  : await getImage({ src: image, width: Math.min(image.width, 1920), format: 'webp', quality: 85 });
+
+const shown = pixelated ? image.width : Math.min(image.width, width);
+---
+
+<a href={full.src} data-lightbox data-pixelated={String(pixelated)} class:list={{ pixelated }}>
+  <Image
+    src={image}
+    alt={alt}
+    width={shown}
+    format={pixelated ? 'png' : 'webp'}
+    quality={pixelated ? undefined : 82}
+    loading={eager ? 'eager' : 'lazy'}
+  />
+</a>

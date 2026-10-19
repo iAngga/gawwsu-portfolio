@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Tile from '../components/Tile.astro';
+import PostList from '../components/PostList.astro';
+import { SITE } from '../data/site';
+import { getProjects, getArt, getPosts, projectUrl, artUrl, artParts, categoryMeta } from '../lib/content';
+
+const projects = await getProjects();
+const art = await getArt();
+const posts = (await getPosts()).slice(0, 3);
+
+// grid depan: semua yang featured (project + art), urut terbaru, maksimal 9
+const featured = [
+  ...projects
+    .filter((p) => p.data.featured)
+    .map((p) => ({
+      href: projectUrl(p),
+      image: p.data.cover,
+      alt: p.data.coverAlt,
+      label: p.data.title,
+      sub: p.data.tags[0],
+      pixelated: p.data.pixelated,
+      date: p.data.date,
+    })),
+  ...art
+    .filter((a) => a.data.featured)
+    .map((a) => ({
+      href: artUrl(a),
+      image: a.data.cover,
+      alt: a.data.coverAlt,
+      label: a.data.title,
+      sub: categoryMeta(artParts(a).category).title,
+      pixelated: a.data.pixelated,
+      date: a.data.date,
+    })),
+]
+  .sort((a, b) => b.date.valueOf() - a.date.valueOf())
+  .slice(0, 9);
+---
+
+<BaseLayout>
+  <p class="tagline">{SITE.tagline}</p>
+
+  <h1 class="sr-only">{SITE.name}</h1>
+
+  <ul class="grid">
+    {featured.map((item, i) => <Tile {...item} eager={i < 3} />)}
+  </ul>
+
+  <div class="section-head">
+    <h2>Latest writing</h2>
+    <a href="/blog/">all posts →</a>
+  </div>
+  <PostList posts={posts} />
+</BaseLayout>

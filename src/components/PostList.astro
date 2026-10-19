@@ -1,0 +1,94 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, postUrl } from '../lib/content';
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+  id?: string;
+}
+
+const { posts, id } = Astro.props;
+---
+
+<ol class="posts" id={id}>
+  {
+    posts.map((post) => (
+      <li data-tags={[`lang-${post.data.lang}`, ...post.data.tags].join(' ')}>
+        <a href={postUrl(post)} lang={post.data.lang}>
+          <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date, post.data.lang)}</time>
+          <span class="title">
+            {post.data.title}
+            {post.data.lang === 'id' && (
+              <span class="lang" title="Bahasa Indonesia">
+                ID
+              </span>
+            )}
+          </span>
+          <span class="desc">{post.data.description}</span>
+        </a>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .posts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  li {
+    border-top: 2px dashed var(--border);
+  }
+  li:last-child {
+    border-bottom: 2px dashed var(--border);
+  }
+  a {
+    display: grid;
+    grid-template-columns: 8.5rem 1fr;
+    gap: 2px 20px;
+    padding: 16px 4px;
+    text-decoration: none;
+    color: var(--text);
+  }
+  a:hover .title {
+    color: var(--accent);
+  }
+  time {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    padding-top: 4px;
+    grid-row: span 2;
+  }
+  .title {
+    font-family: var(--font-pixel);
+    font-size: 1.2rem;
+    line-height: 1.3;
+  }
+  .desc {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+  }
+  .lang {
+    display: inline-block;
+    vertical-align: 2px;
+    margin-left: 8px;
+    padding: 0 6px;
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    background: var(--slso-5);
+    color: var(--slso-1);
+  }
+  @media (max-width: 560px) {
+    a {
+      grid-template-columns: 1fr;
+    }
+    time {
+      grid-row: auto;
+      padding-top: 0;
+    }
+  }
+</style>

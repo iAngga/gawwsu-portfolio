@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Tile from '../../components/Tile.astro';
+import { getArtCategories } from '../../lib/content';
+
+const categories = await getArtCategories();
+---
+
+<BaseLayout title="Art" description="Pixel art, 3D, photography and whatever else I end up making.">
+  <h1>Art</h1>
+  <p class="lede">Pixel art, 3D, photography, and whatever else I end up making.</p>
+
+  <ul class="grid">
+    {
+      categories.map((c, i) => (
+        <Tile
+          href={`/art/${c.slug}/`}
+          image={c.latest.data.cover}
+          alt={c.latest.data.coverAlt}
+          label={c.title}
+          sub={`${c.entries.length} ${c.entries.length === 1 ? 'piece' : 'pieces'}`}
+          pixelated={c.latest.data.pixelated}
+          eager={i < 3}
+        />
+      ))
+    }
+  </ul>
+</BaseLayout>

@@ -1,0 +1,51 @@
+---
+/**
+ * Filter sederhana tanpa reload. Item yang difilter harus punya
+ * atribut data-tags="tag1 tag2" dan berada di dalam elemen dengan id = target.
+ */
+interface Props {
+  target: string;
+  options: { value: string; label: string; count?: number }[];
+  allLabel?: string;
+}
+
+const { target, options, allLabel = 'All' } = Astro.props;
+---
+
+<div class="chips filter-bar" role="group" aria-label="Filter" data-target={target}>
+  <button class="chip" type="button" data-value="" aria-pressed="true">{allLabel}</button>
+  {
+    options.map((o) => (
+      <button class="chip" type="button" data-value={o.value} aria-pressed="false">
+        {o.label}
+        {o.count !== undefined && <span aria-hidden="true"> · {o.count}</span>}
+      </button>
+    ))
+  }
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.filter-bar').forEach((bar) => {
+    const list = document.getElementById(bar.dataset.target ?? '');
+    if (!list) return;
+    const buttons = [...bar.querySelectorAll<HTMLButtonElement>('button')];
+    const items = [...list.querySelectorAll<HTMLElement>('[data-tags]')];
+
+    const apply = (value: string) => {
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.value === value)));
+      items.forEach((item) => {
+        const tags = (item.dataset.tags ?? '').split(' ');
+        item.hidden = value !== '' && !tags.includes(value);
+      });
+      const url = new URL(location.href);
+      if (value) url.searchParams.set('tag', value);
+      else url.searchParams.delete('tag');
+      history.replaceState(null, '', url);
+    };
+
+    buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.value ?? '')));
+
+    const initial = new URL(location.href).searchParams.get('tag');
+    if (initial && buttons.some((b) => b.dataset.value === initial)) apply(initial);
+  });
+</script>

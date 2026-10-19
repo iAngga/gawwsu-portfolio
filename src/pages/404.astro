@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Not found">
+  <div class="lost">
+    <p class="code" aria-hidden="true">404</p>
+    <h1>Nothing here.</h1>
+    <p class="lede">This page wandered off. Try the <a href="/">home page</a> or the <a href="/projects/">projects</a>.</p>
+  </div>
+</BaseLayout>
+
+<style>
+  .lost {
+    padding: 48px 0;
+  }
+  .code {
+    font-family: var(--font-pixel);
+    font-size: clamp(5rem, 18vw, 9rem);
+    line-height: 1;
+    margin: 0 0 12px;
+    color: var(--accent-2);
+    text-shadow: 6px 6px 0 var(--slso-3);
+  }
+</style>

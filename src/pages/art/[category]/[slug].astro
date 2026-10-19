@@ -1,0 +1,56 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ZoomImage from '../../../components/ZoomImage.astro';
+import Lightbox from '../../../components/Lightbox.astro';
+import { getArt, artParts, categoryMeta, formatDate } from '../../../lib/content';
+
+export async function getStaticPaths() {
+  const art = await getArt();
+  return art.map((entry) => {
+    const { category, slug } = artParts(entry);
+    return { params: { category, slug }, props: { entry } };
+  });
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { category } = artParts(entry);
+const meta = categoryMeta(category);
+const { title, date, cover, coverAlt, images, tools, links, pixelated } = entry.data;
+const all = [cover, ...images];
+---
+
+<BaseLayout title={title} description={`${title} · ${meta.title} by gawwsu`}>
+  <a class="back" href={`/art/${category}/`}>← {meta.title}</a>
+
+  <article>
+    <h1>{title}</h1>
+    <dl class="meta">
+      <div><dt>Date</dt><dd>{formatDate(date)}</dd></div>
+      {tools.length > 0 && <div><dt>Tools</dt><dd>{tools.join(', ')}</dd></div>}
+    </dl>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {
+      links.length > 0 && (
+        <div class="links-row">
+          {links.map((l) => (
+            <a class="btn ghost" href={l.url} rel="noopener">
+              {l.label} ↗
+            </a>
+          ))}
+        </div>
+      )
+    }
+
+    <div class="stack">
+      {all.map((img, i) => <ZoomImage image={img} alt={i === 0 ? coverAlt || title : `${title}, image ${i + 1}`} pixelated={pixelated} eager={i === 0} />)}
+    </div>
+  </article>
+
+  <Lightbox />
+</BaseLayout>

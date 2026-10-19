@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import FilterBar from '../../components/FilterBar.astro';
+import { getPosts } from '../../lib/content';
+
+const posts = await getPosts();
+const count = (lang: string) => posts.filter((p) => p.data.lang === lang).length;
+---
+
+<BaseLayout title="Blog" description="Notes on game dev, pixel art and Linux. Some posts are in Bahasa Indonesia.">
+  <h1>Blog</h1>
+  <p class="lede">
+    Notes on game dev, pixel art and Linux. Posts marked <strong>ID</strong> are casual write-ups in Bahasa Indonesia.
+  </p>
+
+  <FilterBar
+    target="post-list"
+    options={[
+      { value: 'lang-en', label: 'English', count: count('en') },
+      { value: 'lang-id', label: 'Bahasa Indonesia', count: count('id') },
+    ]}
+  />
+
+  <PostList posts={posts} id="post-list" />
+</BaseLayout>

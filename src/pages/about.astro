@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Logo from '../components/Logo.astro';
+import { SOCIALS } from '../data/site';
+
+// TODO: semua teks di halaman ini masih placeholder
+const doing = [
+  { what: 'Games', detail: 'Unity, game jams, small weird ideas that sometimes get finished.' },
+  { what: 'Pixel art & 3D', detail: 'Aseprite / LibreSprite for sprites, Blender for low-poly props.' },
+  { what: 'Linux & infra', detail: 'Self-hosting, Docker, networking, and dotfiles that never stop changing.' },
+  { what: 'Photography', detail: 'Mostly whatever is around when I have a camera with me.' },
+];
+---
+
+<BaseLayout title="About" description="About gawwsu.">
+  <div class="about">
+    <div class="avatar" aria-hidden="true">
+      <Logo />
+      <p class="note">placeholder: replace with a pixel self-portrait</p>
+    </div>
+
+    <div>
+      <h1>Hi, I'm gawwsu.</h1>
+      <div class="prose">
+        <p>
+          Placeholder bio. Write two or three sentences here: who you are, what you make, and what you are
+          looking for right now (collabs, game jam teams, work).
+        </p>
+        <p>
+          This site collects the stuff I make: games and game jam entries, pixel art and 3D, photos, and notes
+          from tinkering with Linux. Some blog posts are written in Bahasa Indonesia.
+        </p>
+      </div>
+
+      <h2>What I do</h2>
+      <dl class="doing">
+        {
+          doing.map((d) => (
+            <div>
+              <dt>{d.what}</dt>
+              <dd>{d.detail}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      <h2>Find me</h2>
+      <ul class="socials">
+        {
+          SOCIALS.map((s) => (
+            <li>
+              <span class="label">{s.label}</span>
+              <a href={s.url} rel={s.url.startsWith('http') ? 'me noopener' : undefined}>
+                {s.handle}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .about {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 48px;
+    margin-top: 12px;
+  }
+  .avatar {
+    background: var(--surface);
+    padding: 28px 22px 16px;
+    align-self: start;
+    box-shadow: 6px 6px 0 var(--shadow);
+  }
+  .note {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin: 14px 0 0;
+    text-align: center;
+  }
+  h2 {
+    margin-top: 1.6em;
+  }
+  .doing {
+    margin: 0;
+    display: grid;
+    gap: 14px;
+  }
+  .doing dt {
+    font-family: var(--font-pixel);
+    font-size: 1.1rem;
+    color: var(--accent);
+  }
+  .doing dd {
+    margin: 0;
+    color: var(--text-dim);
+  }
+  .socials {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 8px;
+  }
+  .socials li {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    align-items: baseline;
+  }
+  @media (max-width: 720px) {
+    .about {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .avatar {
+      max-width: 260px;
+    }
+  }
+</style>

@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Tile from '../../components/Tile.astro';
+import FilterBar from '../../components/FilterBar.astro';
+import { getProjects, projectUrl, countTags } from '../../lib/content';
+
+const projects = await getProjects();
+const tags = countTags(projects.map((p) => p.data.tags)).map(([value, count]) => ({
+  value,
+  label: value,
+  count,
+}));
+---
+
+<BaseLayout title="Projects" description="Games, game jam entries, VR experiments and Linux tinkering.">
+  <h1>Projects</h1>
+  <p class="lede">Games, game jam entries, VR experiments, and things I broke and fixed on Linux.</p>
+
+  <FilterBar target="project-grid" options={tags} />
+
+  <ul class="grid" id="project-grid">
+    {
+      projects.map((p, i) => (
+        <Tile
+          href={projectUrl(p)}
+          image={p.data.cover}
+          alt={p.data.coverAlt}
+          label={p.data.title}
+          sub={String(p.data.date.getFullYear())}
+          pixelated={p.data.pixelated}
+          tags={p.data.tags}
+          eager={i < 3}
+        />
+      ))
+    }
+  </ul>
+</BaseLayout>

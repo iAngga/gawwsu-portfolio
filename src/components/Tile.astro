@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  href: string;
+  image: ImageMetadata;
+  alt?: string;
+  label: string;
+  sub?: string;
+  pixelated?: boolean;
+  /** dipakai oleh FilterBar (data-tags) */
+  tags?: string[];
+  eager?: boolean;
+}
+
+const { href, image, alt = '', label, sub, pixelated = false, tags = [], eager = false } = Astro.props;
+
+// pixel art: tidak di-resize, tetap PNG, dibesarkan oleh CSS (image-rendering: pixelated)
+// gambar biasa: di-resize ke 640px dan dikonversi ke WebP
+const width = pixelated ? image.width : Math.min(image.width, 640);
+---
+
+<li data-tags={tags.join(' ')}>
+  <a class="tile" href={href}>
+    <div class:list={['tile-media', { pixelated }]}>
+      <Image
+        src={image}
+        alt={alt}
+        width={width}
+        format={pixelated ? 'png' : 'webp'}
+        quality={pixelated ? undefined : 80}
+        loading={eager ? 'eager' : 'lazy'}
+      />
+    </div>
+    <span class="tile-caption">
+      <span class="label">{label}</span>
+      {sub && <span class="tile-sub">{sub}</span>}
+    </span>
+  </a>
+</li>

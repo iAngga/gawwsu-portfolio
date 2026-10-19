@@ -1,0 +1,83 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ZoomImage from '../../components/ZoomImage.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import { getProjects, cleanId } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((entry) => ({
+    params: { slug: cleanId(entry.id) },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, summary, date, role, tools, tags, links, cover, coverAlt, gallery, pixelated } = entry.data;
+---
+
+<BaseLayout title={title} description={summary}>
+  <a class="back" href="/projects/">← all projects</a>
+
+  <article>
+    <h1>{title}</h1>
+    <p class="lede">{summary}</p>
+
+    <dl class="meta">
+      <div><dt>Year</dt><dd>{date.getFullYear()}</dd></div>
+      {role && <div><dt>Role</dt><dd>{role}</dd></div>}
+      {tools.length > 0 && <div><dt>Tools</dt><dd>{tools.join(', ')}</dd></div>}
+    </dl>
+
+    {
+      tags.length > 0 && (
+        <ul class="chips">
+          {tags.map((t) => (
+            <li>
+              <a class="chip small" href={`/projects/?tag=${encodeURIComponent(t)}`}>
+                {t}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    {
+      links.length > 0 && (
+        <div class="links-row">
+          {links.map((l, i) => (
+            <a class:list={['btn', { ghost: i > 0 }]} href={l.url} rel="noopener">
+              {l.label} ↗
+            </a>
+          ))}
+        </div>
+      )
+    }
+
+    <div class="hero-image">
+      <ZoomImage image={cover} alt={coverAlt || title} pixelated={pixelated} eager />
+    </div>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {
+      gallery.length > 0 && (
+        <section>
+          <h2>Gallery</h2>
+          <div class="gallery">
+            {gallery.map((img) => (
+              <ZoomImage image={img} alt={`${title} screenshot`} pixelated={pixelated} width={600} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </article>
+
+  <Lightbox />
+</BaseLayout>

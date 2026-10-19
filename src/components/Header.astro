@@ -1,0 +1,111 @@
+---
+import Logo from './Logo.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import { NAV, SITE } from '../data/site';
+
+const path = Astro.url.pathname;
+---
+
+<header class="site-header container">
+  <a class="logo" href="/" aria-label={`${SITE.name}, home`}>
+    <Logo />
+  </a>
+  <nav aria-label="Main">
+    <ul>
+      {
+        NAV.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class={`tone-${item.tone}`}
+              aria-current={path.startsWith(item.href) ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+      <li><ThemeToggle /></li>
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 40px;
+    padding-bottom: 20px;
+  }
+
+  /* logo 52x8 pixel: lebar kelipatan 52 supaya pixel-nya rata */
+  .logo {
+    display: block;
+    width: 312px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 860px) {
+    .logo {
+      width: 260px;
+    }
+  }
+
+  ul {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px 26px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav a {
+    font-family: var(--font-pixel);
+    font-size: 1.2rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 2px 0;
+    border-bottom: 3px solid transparent;
+  }
+
+  nav a:hover,
+  nav a[aria-current='page'] {
+    border-bottom-color: currentColor;
+  }
+
+  .tone-orange {
+    color: var(--tone-orange);
+  }
+  .tone-terra {
+    color: var(--tone-terra);
+  }
+  .tone-peach {
+    color: var(--tone-peach);
+  }
+  .tone-cream {
+    color: var(--tone-cream);
+  }
+
+  @media (max-width: 640px) {
+    .site-header {
+      flex-direction: column;
+      align-items: flex-start;
+      padding-top: 28px;
+      gap: 18px;
+    }
+    .logo {
+      width: 208px;
+    }
+    ul {
+      gap: 6px 20px;
+    }
+    nav a {
+      font-size: 1.05rem;
+    }
+  }
+</style>
