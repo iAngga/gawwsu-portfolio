@@ -1,0 +1,14 @@
+// Config untuk Cloudflare Workers (static assets).
+// Deploy command di dashboard: npx wrangler deploy
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // harus sama dengan nama project di dashboard Cloudflare
+  "name": "gawwsu-portfolio",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    // hasil `npm run build`
+    "directory": "./dist",
+    // pakai src/pages/404.astro untuk halaman yang tidak ada
+    "not_found_handling": "404-page"
+  }
+}
