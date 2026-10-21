@@ -1,128 +1,126 @@
 # gawwsu-portfolio
 
-Portfolio statis pakai [Astro](https://astro.build). Tema gelap retro, palette [SLSO8](https://lospec.com/palette-list/slso8).
-Deploy otomatis ke Cloudflare Pages tiap `git push`.
+My personal site: DevOps and self-hosting write-ups, games, pixel art, 3D and photos.
+Static [Astro](https://astro.build) site with a dark retro theme in the [SLSO8](https://lospec.com/palette-list/slso8) palette, deployed to Cloudflare on every push.
 
-## Jalankan lokal
+**Live:** [gawwsu.my.id](https://gawwsu.my.id)
 
-Butuh Node.js 20.3+ (disarankan 22).
+## Run locally
+
+Needs Node.js 20.3+ (22 recommended).
 
 ```bash
 npm install
 npm run dev        # http://localhost:4321
-npm run build      # hasil di dist/
-npm run preview    # cek hasil build
+npm run build      # output in dist/
+npm run preview    # check the production build
 ```
 
-Entri dengan `draft: true` tetap tampil saat `npm run dev`, tapi tidak ikut saat build.
+Entries with `draft: true` show up in `npm run dev` but are left out of the build.
 
-## Struktur
+## Structure
 
 ```text
 src/
 ├── content/
-│   ├── projects/<slug>/index.md   # game, gamejam, VR, Linux, dll.
-│   ├── art/<kategori>/<slug>/index.md
+│   ├── projects/<slug>/index.md   # games, game jams, VR, infra / Linux projects
+│   ├── art/<category>/<slug>/index.md
 │   └── blog/<slug>/index.md
-├── content.config.ts              # schema frontmatter (divalidasi saat build)
-├── data/site.ts                   # nama, tagline, menu, sosial, kategori art
-├── components/                    # Header, Logo, Tile, Lightbox, FilterBar, dll.
-├── pages/                         # routing
-└── styles/global.css              # palette dan style utama
+├── content.config.ts              # frontmatter schema (validated at build time)
+├── data/site.ts                   # name, tagline, menu, socials, art categories
+├── components/                    # Header, Logo, Tile, Lightbox, FilterBar, ...
+├── pages/                         # routes
+└── styles/global.css              # palette and main styles
 public/
 ├── favicon.svg
-├── og.png                         # gambar preview saat link dibagikan
-└── speckle.png                    # tekstur background
+├── og.png                         # preview image when a link is shared
+└── speckle.png                    # background texture
 ```
 
-## Menambah konten
+See [DOCS.md](./DOCS.md) for which file to edit for what.
 
-Tiap entri = satu folder. Gambar ditaruh di folder yang sama.
+## Adding content
+
+Every entry is one folder. Images go in the same folder.
 
 ### Project
 
 ```markdown
 ---
-title: Nama Game
+title: Game Name
 date: 2026-10-01
-summary: Satu kalimat deskripsi.
+summary: One-line description.
 cover: ./cover.png
-coverAlt: Deskripsi gambar
+coverAlt: Image description
 gallery:
   - ./shot-1.png
   - ./shot-2.png
-tags: [game, gamejam]      # dipakai untuk filter di /projects/
+tags: [game, gamejam]      # used by the filter on /projects/
 role: Programmer, pixel art
 tools: [Unity, Aseprite]
 links:
   - label: Play on itch.io
-    url: https://gyrothirteenlabs.itch.io/nama-game
-pixelated: true            # true untuk pixel art (tetap tajam)
-featured: true             # tampil di halaman depan
+    url: https://gyrothirteenlabs.itch.io/game-name
+pixelated: true            # true for pixel art (stays sharp)
+featured: true             # shown on the home page
 ---
 
-Isi tulisan (markdown).
+Write-up in markdown.
 ```
+
+For infra projects, use tags like `devops`, `docker`, `linux`, and link the repo with a `Source on GitHub` link.
 
 ### Art
 
-Folder pertama di bawah `src/content/art/` = kategori. Contoh:
-`src/content/art/photography/jalan-sore/index.md`.
+The first folder under `src/content/art/` is the category, e.g.
+`src/content/art/photography/evening-street/index.md`.
 
-Kategori baru (misal `music`) cukup bikin folder baru. Judul dan urutannya diatur di `ART_CATEGORIES` dalam `src/data/site.ts`.
+A new category (e.g. `music`) is just a new folder. Its title and order are set in `ART_CATEGORIES` in `src/data/site.ts`.
 
-Field: `title`, `date`, `cover`, `images` (gambar tambahan), `tools`, `links`, `pixelated`, `featured`.
+Fields: `title`, `date`, `cover`, `images` (extra images), `tools`, `links`, `pixelated`, `featured`.
 
 ### Blog
 
-Default English. Untuk post Bahasa Indonesia tambahkan `lang: id`.
+English by default. For a post in Bahasa Indonesia, add `lang: id`.
 
 ```markdown
 ---
-title: Judul
+title: Title
 date: 2026-10-19
-description: Ringkasan singkat.
+description: Short summary.
 lang: id
 tags: [linux]
 ---
 ```
 
-## Gambar
+## Images
 
-- Gambar biasa: otomatis di-resize dan dikonversi ke WebP saat build.
-- Pixel art (`pixelated: true`): ukuran asli dipertahankan sebagai PNG, lalu diperbesar di browser tanpa blur. Simpan di ukuran 1x (misal 96×96), jangan yang sudah di-upscale.
-- Kalau nanti gambarnya sangat banyak atau besar, pertimbangkan simpan di Cloudflare R2 supaya repo tidak bengkak. Cek juga limit Cloudflare Pages (jumlah file dan ukuran per file) di dokumentasinya.
+- Regular images are resized and converted to WebP at build time.
+- Pixel art (`pixelated: true`) keeps its original size as PNG and is scaled up in the browser without blur. Save it at 1x (e.g. 96×96), not pre-upscaled.
+- If images get very large or numerous, consider Cloudflare R2 so the repo doesn't bloat, and check Cloudflare's asset limits (file count and size per file).
 
-## Deploy ke Cloudflare Pages
+## Deploy
 
-1. Push repo ini ke GitHub:
-   ```bash
-   git init
-   git add .
-   git commit -m "init portfolio"
-   git branch -M main
-   git remote add origin https://github.com/iAngga/gawwsu-portfolio.git
-   git push -u origin main
-   ```
-2. Buka Cloudflare dashboard → **Workers & Pages** → **Create** → tab **Pages** → **Connect to Git** → pilih repo `gawwsu-portfolio`.
-3. Build settings:
-   - Framework preset: `Astro`
+The site is deployed as a Cloudflare Worker with static assets (see `wrangler.jsonc`), connected to this GitHub repo.
+
+1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Import a repository** → pick `gawwsu-portfolio`.
+2. Build settings:
    - Build command: `npm run build`
-   - Build output directory: `dist`
-4. Versi Node dibaca dari file `.node-version` (22). Kalau perlu, bisa juga set environment variable `NODE_VERSION=22`.
-5. **Save and Deploy**. Setelah itu tiap push ke `main` otomatis build dan deploy. Branch lain dapat preview URL sendiri.
+   - Deploy command: `npx wrangler deploy`
+3. The Node version comes from `.node-version` (22).
+4. Every push to `main` builds and deploys automatically.
 
 ### Custom domain
 
-Di project Pages → **Custom domains** → tambahkan `gawwsu.my.id`. Kalau DNS domainnya sudah di Cloudflare, record-nya dibuat otomatis. Kalau domain dipindah atau URL-nya beda, ubah juga `site` di `astro.config.mjs` dan `url` di `src/data/site.ts`.
+Worker → **Settings** → **Domains & Routes** → add the domain (currently `gawwsu.my.id`). If the domain changes, also update `site` in `astro.config.mjs` and `url` in `src/data/site.ts`.
 
-## Yang masih placeholder
+## Still to do
 
-- Logo (`src/components/Logo.astro`) dan `public/og.png`
-- Teks About, email, dan tanggal/role di tiap project
-- Cover Atom Shock dan Homelab Notes, semua gambar di `art/pixel-art` dan `art/photography`
-- Cari `TODO` di repo untuk daftar lengkapnya
+- Logo (`src/components/Logo.astro`) and `public/og.png`
+- Real pixel art and photos (the placeholder pieces are set to `draft: true`)
+- A real cover for Atom Shock
+- Search the repo for `TODO` for the full list
 
-## Credit
+## Credits
 
-Palette SLSO8 oleh Luis Miguel Maldonado. Font: Pixelify Sans, Atkinson Hyperlegible, Instrument Serif, JetBrains Mono (Google Fonts).
+SLSO8 palette by Luis Miguel Maldonado. Fonts: Pixelify Sans, Atkinson Hyperlegible, Instrument Serif, JetBrains Mono (Google Fonts).

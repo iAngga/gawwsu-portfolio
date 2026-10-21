@@ -4,6 +4,7 @@ date: 2026-08-15
 cover: ./cover.png
 coverAlt: Placeholder image of mountains reflected in a lake
 pixelated: true
+draft: true
 ---
 
 <!-- TODO: untuk foto asli, hapus "pixelated: true" supaya gambarnya di-resize dan dikonversi ke WebP. Tambah foto lain lewat field images. -->

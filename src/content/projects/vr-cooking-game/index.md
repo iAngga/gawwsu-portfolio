@@ -6,22 +6,26 @@ cover: ./cover.png
 coverAlt: Stereo VR view of a kitchen with a step prompt "Memasukan Santan dan Gula"
 gallery:
   - ./blender.png
-tags: [game, vr]
-role: Placeholder role
-tools: [Unity, Blender]
+tags: [game, vr, 3d]
+role: 3D assets, VR interactions, dialogue flow
+tools: [Unity 2022 LTS, Blender]
 featured: true
 ---
 
-<!-- TODO: ganti judul dengan nama game yang asli -->
+<!-- TODO: swap the title for the real game name, and add what the project was for (school, client, competition?) and the target headset -->
 
-Placeholder write-up. Explain the goal of the project (school, client, competition?), the target device, and how players interact with ingredients.
+A VR game where the player cooks a traditional dish one step at a time, guided by on-screen prompts like adding coconut milk and sugar.
+
+## My part
+
+- Modeled the kitchen and cooking props as low-poly models, with UV unwrapping and baked materials
+- Set up the VR interactions in Unity 2022 LTS
+- Structured the dialogue flow that guides the player through the recipe
 
 ## Pipeline
 
 1. Model and texture the kitchen props in Blender
-2. Bake materials and import into Unity
-3. Build step-by-step recipe logic and VR interactions
+2. Bake materials and import them into Unity
+3. Build the step-by-step recipe logic and VR interactions
 
-## Next
-
-What is still missing or planned.
+The props are also on the [art page](/art/3d/vr-kitchen-props/).

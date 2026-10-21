@@ -1,134 +1,134 @@
-# Dokumentasi gawwsu-portfolio
+# gawwsu-portfolio docs
 
-Panduan singkat: file mana untuk mengubah apa.
+A quick guide to which file changes what.
 
-## Alur kerja
+## Workflow
 
 ```bash
-npm run dev          # buka http://localhost:4321, perubahan langsung kelihatan
-# edit file...
+npm run dev          # open http://localhost:4321, changes show up live
+# edit files...
 git add .
 git commit -m "update about page"
-git push             # Cloudflare otomatis build + deploy (±1 menit)
+git push             # Cloudflare builds and deploys automatically (~1 minute)
 ```
 
-Kalau `npm run dev` jalan tanpa error, biasanya build di Cloudflare juga aman. Untuk lebih yakin, jalankan `npm run build` sebelum push.
+If `npm run dev` runs without errors, the Cloudflare build is usually fine too. To be sure, run `npm run build` before pushing.
 
 ---
 
-## Mau ubah apa? Edit di sini
+## What to edit for what
 
-| Mau ubah | File | Bagian |
+| To change | File | Where |
 | --- | --- | --- |
-| Nama situs, tagline header, deskripsi SEO | `src/data/site.ts` | `SITE` |
-| Menu nav (urutan, label, warna) | `src/data/site.ts` | `NAV` |
-| Link sosial (footer & About) | `src/data/site.ts` | `SOCIALS` |
-| Judul/deskripsi/urutan kategori art | `src/data/site.ts` | `ART_CATEGORIES` |
-| Warna seluruh situs | `src/styles/global.css` | `:root` (gelap) dan `:root[data-theme='light']` (terang) |
-| Font | `src/layouts/BaseLayout.astro` (link Google Fonts) + `src/styles/global.css` (`--font-*`) | |
-| Jumlah kolom grid, jarak antar tile | `src/styles/global.css` | `.grid`, `--gap` |
-| Efek hover tile, label di bawah gambar | `src/styles/global.css` | `.tile-*` |
-| Lebar halaman | `src/styles/global.css` | `--max` |
-| Logo header | `src/components/Logo.astro` | |
-| Ukuran logo, posisi nav | `src/components/Header.astro` | `<style>` |
-| Teks footer | `src/components/Footer.astro` | |
-| Isi halaman depan (grid + "Latest writing") | `src/pages/index.astro` | |
-| Teks judul/deskripsi halaman Projects, Art, Blog | `src/pages/projects/index.astro`, `src/pages/art/index.astro`, `src/pages/blog/index.astro` | `<h1>` dan `<p class="lede">` |
-| Bio dan "What I do" | `src/pages/about.astro` | array `doing` + teks di HTML |
-| Halaman 404 | `src/pages/404.astro` | |
-| Gambar preview saat link dibagikan | `public/og.png` | ukuran 1200×630 |
+| Site name, header tagline, SEO description | `src/data/site.ts` | `SITE` |
+| Nav menu (order, labels, colors) | `src/data/site.ts` | `NAV` |
+| Social links (footer and About) | `src/data/site.ts` | `SOCIALS` |
+| Art category titles, descriptions, order | `src/data/site.ts` | `ART_CATEGORIES` |
+| Colors for the whole site | `src/styles/global.css` | `:root` (dark) and `:root[data-theme='light']` (light) |
+| Fonts | `src/layouts/BaseLayout.astro` (Google Fonts link) + `src/styles/global.css` (`--font-*`) | |
+| Grid columns, gap between tiles | `src/styles/global.css` | `.grid`, `--gap` |
+| Tile hover effect, label under images | `src/styles/global.css` | `.tile-*` |
+| Page width | `src/styles/global.css` | `--max` |
+| Header logo | `src/components/Logo.astro` | |
+| Logo size, nav position | `src/components/Header.astro` | `<style>` |
+| Footer text | `src/components/Footer.astro` | |
+| Home page (grid + "Latest writing") | `src/pages/index.astro` | |
+| Title/intro of the Projects, Art, Blog pages | `src/pages/projects/index.astro`, `src/pages/art/index.astro`, `src/pages/blog/index.astro` | `<h1>` and `<p class="lede">` |
+| Bio, "What I do", "Work" | `src/pages/about.astro` | `doing` and `work` arrays + the text in the HTML |
+| 404 page | `src/pages/404.astro` | |
+| Link preview image | `public/og.png` | 1200×630 |
 | Favicon | `public/favicon.svg` | |
-| Tekstur bintik di background | `public/speckle.png` | kekuatannya: `--speckle-opacity` di CSS |
+| Background speckle texture | `public/speckle.png` | strength: `--speckle-opacity` in CSS |
 | Domain | `astro.config.mjs` (`site`) + `src/data/site.ts` (`url`) | |
 
 ---
 
-## Struktur folder
+## Folder structure
 
 ```text
 gawwsu-portfolio/
-├── astro.config.mjs        # config Astro: domain (site), tema warna code block
-├── wrangler.jsonc          # config Cloudflare Worker: folder dist, halaman 404
-├── package.json            # daftar dependency + perintah npm (dev, build, preview)
-├── tsconfig.json           # setting TypeScript (jarang perlu diubah)
-├── .node-version           # versi Node untuk build di Cloudflare (22)
-├── README.md               # cara install dan deploy
-├── DOCS.md                 # file ini
+├── astro.config.mjs        # Astro config: domain (site), code block theme
+├── wrangler.jsonc          # Cloudflare Worker config: dist folder, 404 page
+├── package.json            # dependencies + npm scripts (dev, build, preview)
+├── tsconfig.json           # TypeScript settings (rarely needs changes)
+├── .node-version           # Node version for the Cloudflare build (22)
+├── README.md               # install and deploy
+├── DOCS.md                 # this file
 │
-├── public/                 # file statis, disalin apa adanya ke hasil build
+├── public/                 # static files, copied as-is into the build
 │   ├── favicon.svg
 │   ├── og.png
 │   └── speckle.png
 │
 └── src/
-    ├── content.config.ts   # "schema": field apa saja yang boleh/wajib di frontmatter
+    ├── content.config.ts   # the "schema": which frontmatter fields are allowed or required
     │
-    ├── content/            # SEMUA ISI WEBSITE ADA DI SINI
-    │   ├── projects/<nama>/index.md + gambar
-    │   ├── art/<kategori>/<nama>/index.md + gambar
-    │   └── blog/<nama>/index.md
+    ├── content/            # ALL SITE CONTENT LIVES HERE
+    │   ├── projects/<name>/index.md + images
+    │   ├── art/<category>/<name>/index.md + images
+    │   └── blog/<name>/index.md
     │
     ├── data/
-    │   └── site.ts         # teks global: nama, tagline, menu, sosial, kategori art
+    │   └── site.ts         # global text: name, tagline, menu, socials, art categories
     │
     ├── lib/
-    │   └── content.ts      # fungsi bantu: ambil & urutkan konten, bikin URL, format tanggal
+    │   └── content.ts      # helpers: load and sort content, build URLs, format dates
     │
     ├── styles/
-    │   └── global.css      # semua style global: palette, font, grid, tile, tombol, prose
+    │   └── global.css      # all global styles: palette, fonts, grid, tiles, buttons, prose
     │
     ├── layouts/
-    │   └── BaseLayout.astro  # kerangka tiap halaman: <head>, font, Header, Footer
+    │   └── BaseLayout.astro  # page skeleton: <head>, fonts, Header, Footer
     │
-    ├── components/         # potongan UI yang dipakai ulang
-    │   ├── Header.astro      # logo + menu + tombol tema
-    │   ├── Logo.astro        # logo pixel "gawwsu" (SVG)
-    │   ├── ThemeToggle.astro # tombol gelap/terang (disimpan di browser)
-    │   ├── Footer.astro      # copyright + link sosial
-    │   ├── Tile.astro        # 1 kotak gambar + label di grid
-    │   ├── FilterBar.astro   # tombol filter tag (Projects, Blog)
-    │   ├── PostList.astro    # daftar tulisan blog
-    │   ├── ZoomImage.astro   # gambar yang bisa diklik untuk diperbesar
-    │   └── Lightbox.astro    # overlay gambar besar (panah kiri/kanan, Esc)
+    ├── components/         # reusable UI pieces
+    │   ├── Header.astro      # logo + menu + theme button
+    │   ├── Logo.astro        # pixel "gawwsu" logo (SVG)
+    │   ├── ThemeToggle.astro # dark/light button (saved in the browser)
+    │   ├── Footer.astro      # copyright + social links
+    │   ├── Tile.astro        # one image tile + label in the grid
+    │   ├── FilterBar.astro   # tag filter buttons (Projects, Blog)
+    │   ├── PostList.astro    # list of blog posts
+    │   ├── ZoomImage.astro   # image that can be clicked to enlarge
+    │   └── Lightbox.astro    # large image overlay (left/right arrows, Esc)
     │
-    └── pages/              # tiap file = 1 URL
+    └── pages/              # each file = one URL
         ├── index.astro               # /
         ├── about.astro               # /about/
-        ├── 404.astro                 # halaman tidak ditemukan
-        ├── rss.xml.ts                # /rss.xml (feed blog)
+        ├── 404.astro                 # not found page
+        ├── rss.xml.ts                # /rss.xml (blog feed)
         ├── projects/
         │   ├── index.astro           # /projects/          (grid + filter)
-        │   └── [slug].astro          # /projects/nama/     (detail project)
+        │   └── [slug].astro          # /projects/name/     (project detail)
         ├── art/
-        │   ├── index.astro           # /art/               (grid kategori)
+        │   ├── index.astro           # /art/               (category grid)
         │   └── [category]/
-        │       ├── index.astro       # /art/pixel-art/     (grid isi kategori)
-        │       └── [slug].astro      # /art/pixel-art/nama/ (detail karya)
+        │       ├── index.astro       # /art/pixel-art/     (category contents)
+        │       └── [slug].astro      # /art/pixel-art/name/ (piece detail)
         └── blog/
-            ├── index.astro           # /blog/              (daftar + filter bahasa)
-            └── [slug].astro          # /blog/nama/         (isi tulisan)
+            ├── index.astro           # /blog/              (list + language filter)
+            └── [slug].astro          # /blog/name/         (post)
 ```
 
-File dengan nama `[slug]` atau `[category]` adalah template: satu file dipakai untuk semua entri di folder `content/` yang sesuai.
+Files named `[slug]` or `[category]` are templates: one file renders every entry in the matching `content/` folder.
 
 ---
 
-## Contoh edit yang sering
+## Common edits
 
-### Ganti tagline dan nama di header
+### Change the tagline and name in the header
 
 `src/data/site.ts`:
 
 ```ts
 export const SITE = {
   name: 'gawwsu',
-  tagline: 'game dev, pixel pusher, linux tinkerer, etc.',   // ← teks miring di bawah logo
-  description: '...',                                        // ← deskripsi untuk Google & share link
+  tagline: 'linux tinkerer, devops in training, game dev, pixel pusher.',   // ← italic text under the logo
+  description: '...',                                                         // ← description for search engines and link previews
   ...
 };
 ```
 
-### Tambah atau ubah menu
+### Add or change a menu item
 
 `src/data/site.ts`:
 
@@ -141,105 +141,105 @@ export const NAV = [
 ];
 ```
 
-`tone` pilihan: `orange`, `terra`, `peach`, `cream`. Kalau menambah halaman baru, buat juga file-nya di `src/pages/`, misal `src/pages/uses.astro` → `/uses/`.
+`tone` options: `orange`, `terra`, `peach`, `cream`. When adding a new page, also create its file in `src/pages/`, e.g. `src/pages/uses.astro` → `/uses/`.
 
-### Ganti warna
+### Change colors
 
-Semua warna diambil dari 8 warna SLSO8 di atas `src/styles/global.css`. Yang biasanya diubah:
+All colors come from the 8 SLSO8 colors at the top of `src/styles/global.css`. The ones you usually change:
 
 ```css
 :root {
   --bg: var(--slso-1);        /* background */
-  --surface: var(--slso-2);   /* kotak di belakang gambar */
-  --text: var(--slso-8);      /* teks utama */
-  --text-dim: var(--slso-7);  /* teks kecil / deskripsi */
-  --accent: var(--slso-6);    /* link */
-  --shadow: var(--slso-5);    /* bayangan saat hover tile */
-  --tagline: var(--slso-6);   /* warna tagline */
+  --surface: var(--slso-2);   /* box behind images */
+  --text: var(--slso-8);      /* main text */
+  --text-dim: var(--slso-7);  /* small text / descriptions */
+  --accent: var(--slso-6);    /* links */
+  --shadow: var(--slso-5);    /* shadow on tile hover */
+  --tagline: var(--slso-6);   /* tagline color */
 }
 ```
 
-Mau ganti palette total? Cukup ubah `--slso-1` sampai `--slso-8`.
+Want a whole new palette? Just change `--slso-1` to `--slso-8`.
 
-### Ubah jumlah kolom grid
+### Change the number of grid columns
 
 `src/styles/global.css`:
 
 ```css
 .grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));   /* desktop: 3 kolom */
+  grid-template-columns: repeat(3, minmax(0, 1fr));   /* desktop: 3 columns */
 }
 
 @media (max-width: 720px) {
   .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /* HP: 2 kolom */
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* phone: 2 columns */
   }
 }
 ```
 
-Gambar di grid selalu kotak. Ubah `aspect-ratio: 1 / 1` di `.tile-media` (misal jadi `4 / 3`) kalau mau persegi panjang.
+Grid images are always square. Change `aspect-ratio: 1 / 1` in `.tile-media` (e.g. to `4 / 3`) for rectangles.
 
-### Ganti logo
+### Replace the logo
 
-Opsi paling gampang:
+The easiest way:
 
-1. Export logo pixel art dari Aseprite sebagai PNG ukuran asli (1x), simpan di `public/logo.png`.
-2. Ganti isi `src/components/Logo.astro` jadi:
+1. Export your pixel art logo from Aseprite as a PNG at its original size (1x), save it as `public/logo.png`.
+2. Replace the contents of `src/components/Logo.astro` with:
 
    ```astro
    <img src="/logo.png" alt="gawwsu" class="pixelated" />
    ```
-3. Atur lebarnya di `src/components/Header.astro` (`.logo { width: ... }`). Pakai kelipatan lebar asli gambar supaya pixel-nya rata.
+3. Set its width in `src/components/Header.astro` (`.logo { width: ... }`). Use a multiple of the image's real width so the pixels stay even.
 
-### Ganti font
+### Change fonts
 
-1. Pilih font di [Google Fonts](https://fonts.google.com), salin URL `<link>`-nya.
-2. Ganti `href` link font di `src/layouts/BaseLayout.astro`.
-3. Ubah nama font di `src/styles/global.css`:
+1. Pick fonts on [Google Fonts](https://fonts.google.com) and copy the `<link>` URL.
+2. Replace the font link `href` in `src/layouts/BaseLayout.astro`.
+3. Update the font names in `src/styles/global.css`:
 
    ```css
-   --font-pixel: 'Pixelify Sans', monospace;   /* judul, menu */
-   --font-body: 'Atkinson Hyperlegible', sans-serif;  /* teks biasa */
-   --font-serif: 'Instrument Serif', serif;    /* tagline */
-   --font-mono: 'JetBrains Mono', monospace;   /* kode, tanggal */
+   --font-pixel: 'Pixelify Sans', monospace;          /* headings, menu */
+   --font-body: 'Atkinson Hyperlegible', sans-serif;  /* body text */
+   --font-serif: 'Instrument Serif', serif;           /* tagline */
+   --font-mono: 'JetBrains Mono', monospace;          /* code, dates */
    ```
 
-### Ubah halaman depan
+### Change the home page
 
-`src/pages/index.astro`. Grid depan otomatis berisi project + art yang punya `featured: true`, urut terbaru, maksimal 9. Ganti angka di `.slice(0, 9)` untuk mengubah jumlahnya, dan `.slice(0, 3)` untuk jumlah tulisan di "Latest writing".
+`src/pages/index.astro`. The home grid automatically shows projects and art with `featured: true`, newest first, up to 9. Change the number in `.slice(0, 9)` to show more or fewer, and `.slice(0, 3)` for the number of posts under "Latest writing".
 
 ---
 
-## Menambah konten
+## Adding content
 
-Cukup bikin folder baru, tanpa menyentuh kode.
+Just create a new folder, no code changes needed.
 
-| Mau tambah | Buat folder | Wajib di frontmatter |
+| To add | Create folder | Required frontmatter |
 | --- | --- | --- |
-| Project / game | `src/content/projects/nama-project/` | `title`, `date`, `summary`, `cover` |
-| Karya art | `src/content/art/<kategori>/nama-karya/` | `title`, `date`, `cover` |
-| Kategori art baru | `src/content/art/music/` (folder baru) | lalu daftarkan judulnya di `ART_CATEGORIES` (opsional) |
-| Tulisan blog | `src/content/blog/judul-tulisan/` | `title`, `date`, `description` |
+| Project / game | `src/content/projects/project-name/` | `title`, `date`, `summary`, `cover` |
+| Art piece | `src/content/art/<category>/piece-name/` | `title`, `date`, `cover` |
+| New art category | `src/content/art/music/` (new folder) | then register its title in `ART_CATEGORIES` (optional) |
+| Blog post | `src/content/blog/post-title/` | `title`, `date`, `description` |
 
-Nama folder jadi URL, jadi pakai huruf kecil dan tanda `-`. Contoh lengkap frontmatter ada di `README.md`, atau salin dari entri yang sudah ada.
+The folder name becomes the URL, so use lowercase and `-`. Full frontmatter examples are in `README.md`, or copy an existing entry.
 
-Field opsional yang berguna:
+Useful optional fields:
 
-- `featured: true` → tampil di halaman depan
-- `pixelated: true` → pixel art tetap tajam (simpan gambar di ukuran 1x)
-- `draft: true` → hanya tampil di `npm run dev`, tidak ikut ter-deploy
-- `lang: id` (blog) → badge ID + tanggal format Indonesia
+- `featured: true` → shown on the home page
+- `pixelated: true` → pixel art stays sharp (save images at 1x)
+- `draft: true` → only shown in `npm run dev`, not deployed
+- `lang: id` (blog) → ID badge + Indonesian date format
 
-Kalau ada field yang salah atau kurang, `npm run dev` / `npm run build` akan menampilkan error yang menyebut file dan field-nya.
+If a field is wrong or missing, `npm run dev` / `npm run build` shows an error that names the file and the field.
 
 ---
 
-## Kalau ada masalah
+## Troubleshooting
 
-| Gejala | Kemungkinan penyebab |
+| Symptom | Likely cause |
 | --- | --- |
-| Build error `... does not match schema` | Frontmatter salah ketik / field wajib kosong. Cek file yang disebut di error. |
-| Gambar tidak muncul | Path di frontmatter salah. Harus relatif ke `index.md`, misal `./cover.png`. |
-| Pixel art blur | Lupa `pixelated: true`, atau gambar sudah di-upscale sebelum disimpan. |
-| Perubahan tidak muncul di situs | Belum `git push`, atau build gagal. Cek tab **Deployments** di Cloudflare. |
-| Halaman baru 404 | File belum ada di `src/pages/`, atau nama file beda dengan link di menu. |
+| Build error `... does not match schema` | Typo in the frontmatter or a required field is empty. Check the file named in the error. |
+| Image doesn't show | Wrong path in the frontmatter. It must be relative to `index.md`, e.g. `./cover.png`. |
+| Pixel art looks blurry | Missing `pixelated: true`, or the image was upscaled before saving. |
+| Changes don't show on the live site | Not pushed yet, or the build failed. Check the **Deployments** tab of the Worker in Cloudflare. |
+| New page returns 404 | The file doesn't exist in `src/pages/`, or its name doesn't match the menu link. |

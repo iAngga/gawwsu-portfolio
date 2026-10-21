@@ -3,32 +3,40 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Logo from '../components/Logo.astro';
 import { SOCIALS } from '../data/site';
 
-// TODO: semua teks di halaman ini masih placeholder
 const doing = [
-  { what: 'Games', detail: 'Unity, game jams, small weird ideas that sometimes get finished.' },
-  { what: 'Pixel art & 3D', detail: 'Aseprite / LibreSprite for sprites, Blender for low-poly props.' },
-  { what: 'Linux & infra', detail: 'Self-hosting, Docker, networking, and dotfiles that never stop changing.' },
-  { what: 'Photography', detail: 'Mostly whatever is around when I have a camera with me.' },
+  { what: 'Linux & infra', detail: 'Docker, self-hosting, Cloudflare Tunnel, monitoring, and keeping one school server with ~70 containers alive.' },
+  { what: 'Lab & network admin', detail: 'Eight school computer labs, batch scripts pushed with NetSupport School, MikroTik routers, exam-day setups.' },
+  { what: 'Games', detail: 'Unity, game jams, small weird ideas that sometimes get finished. Published as GyroThirteen Labs.' },
+  { what: 'Pixel art & 3D', detail: 'Aseprite for sprites, Blender for low-poly props.' },
+];
+
+const work = [
+  { role: 'IT Support Technician', where: 'Public vocational high school, Bandung', when: 'Nov 2025 – now' },
+  { role: 'QA & IT Support', where: 'MASI Technology (IPTV software for hotels)', when: '~6 months' },
+  { role: 'IoT Instructor & Researcher', where: 'PT Forit (internship, then staff)', when: '' },
 ];
 ---
 
-<BaseLayout title="About" description="About gawwsu.">
+<BaseLayout title="About" description="About gawwsu (Angga): IT support technician in Bandung, working toward DevOps, making small games on the side.">
   <div class="about">
     <div class="avatar" aria-hidden="true">
       <Logo />
-      <p class="note">placeholder: replace with a pixel self-portrait</p>
     </div>
 
     <div>
-      <h1>Hi, I'm gawwsu.</h1>
+      <h1>Hi, I'm Angga.</h1>
       <div class="prose">
         <p>
-          Placeholder bio. Write two or three sentences here: who you are, what you make, and what you are
-          looking for right now (collabs, game jam teams, work).
+          Online I go by <strong>gawwsu</strong>. I'm an IT support technician from Bandung, Indonesia, working my
+          way into DevOps and Linux system administration. Right now I look after eight computer labs and a Docker
+          server at a vocational high school, on my own.
         </p>
         <p>
-          This site collects the stuff I make: games and game jam entries, pixel art and 3D, photos, and notes
-          from tinkering with Linux. Some blog posts are written in Bahasa Indonesia.
+          I self-host things, break them, fix them, and write down how. On the side I make small games and pixel
+          art under GyroThirteen Labs. Some blog posts here are written in Bahasa Indonesia.
+        </p>
+        <p>
+          I'm open to junior DevOps, Linux sysadmin, and technical support roles, remote or hybrid.
         </p>
       </div>
 
@@ -39,6 +47,21 @@ const doing = [
             <div>
               <dt>{d.what}</dt>
               <dd>{d.detail}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      <h2>Work</h2>
+      <dl class="doing">
+        {
+          work.map((w) => (
+            <div>
+              <dt>{w.role}</dt>
+              <dd>
+                {w.where}
+                {w.when && <span class="when"> · {w.when}</span>}
+              </dd>
             </div>
           ))
         }
@@ -74,11 +97,9 @@ const doing = [
     align-self: start;
     box-shadow: 6px 6px 0 var(--shadow);
   }
-  .note {
-    font-size: 0.75rem;
-    color: var(--text-dim);
-    margin: 14px 0 0;
-    text-align: center;
+  .when {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
   }
   h2 {
     margin-top: 1.6em;

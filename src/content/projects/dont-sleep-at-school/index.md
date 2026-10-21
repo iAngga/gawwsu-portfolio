@@ -5,7 +5,7 @@ summary: Why study when you can sleep at school? A short survival horror game.
 cover: ./cover.png
 coverAlt: Dark classroom with the text "don't sleep at school!"
 tags: [game, horror, survival]
-role: Solo dev (placeholder)
+role: Developer
 tools: [Unity]
 links:
   - label: Play on itch.io
@@ -13,16 +13,8 @@ links:
 featured: true
 ---
 
-<!-- TODO: ganti tanggal, role, dan tulisan di bawah -->
+<!-- TODO: check the date, then add a few lines: the idea, how long it took, what you worked on, what you'd do differently -->
 
-Placeholder write-up. A few lines about the idea, how long it took, and what you would do differently next time.
+A short survival horror game set in a classroom, built around one question: why study when you can sleep at school?
 
-## What I worked on
-
-- Level layout and lighting for the classroom
-- Enemy behaviour and the "stay awake" mechanic
-- Sound design
-
-## What I learned
-
-Something you figured out while making it.
+Released for free on itch.io under GyroThirteen Labs.

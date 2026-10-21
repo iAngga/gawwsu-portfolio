@@ -1,20 +1,22 @@
 ---
 title: How this site builds and deploys
 date: 2026-10-18
-description: Astro on GitHub, built and deployed by Cloudflare Pages on every push.
+description: Astro on GitHub, built and deployed by Cloudflare Workers on every push.
 tags: [astro, cloudflare, meta]
 ---
 
-This site is a static [Astro](https://astro.build) project. The repo lives on GitHub and Cloudflare Pages builds it on every push to `main`.
+This site is a static [Astro](https://astro.build) project. The repo lives on GitHub, and Cloudflare builds it and serves it as a Worker with static assets on every push to `main`.
 
 ## Build settings
 
-| Setting                | Value           |
-| ---------------------- | --------------- |
-| Framework preset       | Astro           |
-| Build command          | `npm run build` |
-| Build output directory | `dist`          |
-| Node version           | from `.node-version` (22) |
+| Setting | Value |
+| --- | --- |
+| Build command | `npm run build` |
+| Deploy command | `npx wrangler deploy` |
+| Output directory | `dist` (set in `wrangler.jsonc`) |
+| Node version | from `.node-version` (22) |
+
+`wrangler.jsonc` tells Cloudflare to serve the `dist` folder and to use the site's own 404 page for anything that doesn't exist.
 
 ## Adding content
 

@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  // Ganti kalau domainnya beda. Dipakai untuk RSS, canonical URL, dan OG tags.
+  // Change this if the domain changes. Used for RSS, canonical URLs and OG tags.
   site: 'https://gawwsu.my.id',
   markdown: {
     shikiConfig: {

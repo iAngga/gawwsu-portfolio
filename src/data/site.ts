@@ -1,14 +1,14 @@
 export const SITE = {
   name: 'gawwsu',
-  tagline: 'game dev, pixel pusher, linux tinkerer, etc.',
+  tagline: 'linux tinkerer, devops in training, game dev, pixel pusher.',
   description:
-    'Portfolio of gawwsu: games, game jams, pixel art, 3D, photography, and notes from tinkering with Linux.',
+    'Portfolio of gawwsu (Angga): self-hosting and DevOps write-ups, games, pixel art, 3D, and notes from tinkering with Linux.',
   url: 'https://gawwsu.my.id',
   author: 'gawwsu',
   ogImage: '/og.png',
 };
 
-/** tone = warna teks menu, didefinisikan di src/styles/global.css (.tone-*) */
+/** tone = menu text color, defined in src/styles/global.css (.tone-*) */
 export const NAV = [
   { href: '/projects/', label: 'Projects', tone: 'orange' },
   { href: '/art/', label: 'Art', tone: 'terra' },
@@ -16,18 +16,18 @@ export const NAV = [
   { href: '/about/', label: 'About', tone: 'cream' },
 ] as const;
 
-// TODO: ganti placeholder di bawah dengan link asli
 export const SOCIALS = [
-  { label: 'itch.io', handle: 'gyrothirteenlabs', url: 'https://gyrothirteenlabs.itch.io' },
   { label: 'GitHub', handle: 'iAngga', url: 'https://github.com/iAngga' },
-  { label: 'Email', handle: 'hello@example.com', url: 'mailto:hello@example.com' },
+  { label: 'LinkedIn', handle: 'anggaaditiakurnia', url: 'https://www.linkedin.com/in/anggaaditiakurnia/' },
+  { label: 'itch.io', handle: 'gyrothirteenlabs', url: 'https://gyrothirteenlabs.itch.io' },
+  { label: 'Mastodon', handle: '@gawwsu@mastodon.social', url: 'https://mastodon.social/@gawwsu' },
   { label: 'RSS', handle: 'blog feed', url: '/rss.xml' },
 ];
 
 /**
- * Metadata kategori art. Key = nama folder di src/content/art/.
- * Folder yang tidak terdaftar di sini tetap tampil, judulnya diambil dari nama folder.
- * Kategori tanpa isi tidak ditampilkan.
+ * Art category metadata. Key = folder name in src/content/art/.
+ * Folders not listed here still show up, titled from the folder name.
+ * Empty categories are hidden.
  */
 export const ART_CATEGORIES: Record<string, { title: string; description?: string; order: number }> = {
   'pixel-art': { title: 'Pixel Art', description: 'Small pictures, limited palettes.', order: 1 },
