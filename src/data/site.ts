@@ -1,6 +1,6 @@
 export const SITE = {
   name: 'gawwsu',
-  tagline: 'linux tinkerer, devops in training, game dev, pixel pusher.',
+  tagline: 'the busiest loser.',
   description:
     'Portfolio of gawwsu (Angga): self-hosting and DevOps write-ups, games, pixel art, 3D, and notes from tinkering with Linux.',
   url: 'https://gawwsu.my.id',
